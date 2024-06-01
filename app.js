@@ -62,9 +62,18 @@ function recalc() {
 }
 const canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
+
+let translate_x, translate_y;
+let trans_x_direction = 1;
+let trans_y_direction = 1;
+let delta_translate_x = 10;
+let delta_translate_y = 10;
+
 document.addEventListener("DOMContentLoaded", () => {
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
+  translate_x = canvas.width / 2;
+  translate_y = canvas.height / 2;
   recalc();
   render();
   setTimeout(() => {
@@ -86,6 +95,19 @@ const render = () => {
 
     shadeMap(l, coord[0], coord[1]);
   });
+  if (translate_x < 150 + 75 || translate_x > canvas.width - 150 - 75) {
+    trans_x_direction *= -1;
+  } else {
+    trans_x_direction *= 1;
+  }
+
+  if (translate_y < 150 + 75 || translate_y > canvas.height - 150 - 75) {
+    trans_y_direction *= -1;
+  } else {
+    trans_y_direction *= 1;
+  }
+  translate_x += trans_x_direction * delta_translate_x;
+  translate_y += trans_y_direction * delta_translate_y;
 };
 
 function luminance(coordx, coordy, coordz, index) {
@@ -104,29 +126,29 @@ function luminance(coordx, coordy, coordz, index) {
 }
 
 const shadeMap = (l_value, coordx, coordy) => {
-  if (l_value > 90) {
-    ctx.fillText("@", coordx + canvas.width / 2, coordy + canvas.height / 2);
+  if (l_value > 70) {
+    ctx.fillText("@", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7) {
-    ctx.fillText("$", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText("$", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7 * 2) {
-    ctx.fillText("#", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText("#", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7 * 3) {
-    ctx.fillText("*", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText("*", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7 * 4) {
-    ctx.fillText("!", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText("!", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7 * 5) {
-    ctx.fillText("=", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText("=", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7 * 6) {
-    ctx.fillText(";", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText(";", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7 * 7) {
-    ctx.fillText(":", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText(":", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7 * 8) {
-    ctx.fillText("~", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText("~", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7 * 9) {
-    ctx.fillText("-", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText("-", coordx + translate_x, coordy + translate_y);
   } else if (l_value > 40 - 7 * 10) {
-    ctx.fillText(",", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText(",", coordx + translate_x, coordy + translate_y);
   } else {
-    ctx.fillText(".", coordx + canvas.width / 2, coordy + canvas.height / 2);
+    ctx.fillText(".", coordx + translate_x, coordy + translate_y);
   }
 };
