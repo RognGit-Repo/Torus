@@ -125,6 +125,8 @@ function luminance(coordx, coordy, coordz, index) {
   );
 }
 
+const sample = "";
+
 const shadeMap = (l_value, coordx, coordy) => {
   if (l_value > 70) {
     ctx.fillText("@", coordx + translate_x, coordy + translate_y);
