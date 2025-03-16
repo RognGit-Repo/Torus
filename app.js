@@ -11,14 +11,21 @@ const Ni = new Array();
 const Nk = new Array();
 const c1 = 24;
 const c2 = 60;
+
+//Initial Angles of rotation(90 deg)
 let a = Math.PI / 4;
 let b = Math.PI / 4;
 const speed = 100;
 const init_delay = 1000;
 
+
+//Torus Calculation dependent to current rotation angles
+//Independent to current translation coordinates
 function recalc() {
   Torus = [];
   SNormal = [];
+
+  //c1 and c2 are the quantity of characters circling through first and second circle of Torus
   for (let x = 0; x < c2; x++) {
     for (let y = 0; y < c1; y++) {
       //solid of revolution
@@ -40,7 +47,7 @@ function recalc() {
       k[x * c2 + y] =
         R1 * Math.sin(Y) * Math.sin(a) +
         (R2 + R1 * Math.cos(Y)) * Math.sin(X) * Math.cos(a);
-
+      
       Torus.push([i[x * c2 + y], j[x * c2 + y], k[x * c2 + y]]);
     }
   }
@@ -56,7 +63,7 @@ function recalc() {
       R2 * Math.sin(X) * Math.sin(a) * Math.cos(b);
 
     Nk[x] = R2 * Math.sin(X) * Math.cos(a);
-
+    //Normal to some plane of reference
     SNormal.push([Ni[x], Nj[x], Nk[x]]);
   }
 }
@@ -80,6 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(() => {
       recalc();
       render();
+
+      //Rotation Delta
       a += 0.1;
       b += 0.1;
     }, speed);
@@ -106,6 +115,7 @@ const render = () => {
   } else {
     trans_y_direction *= 1;
   }
+  //Translation delta
   translate_x += trans_x_direction * delta_translate_x;
   translate_y += trans_y_direction * delta_translate_y;
 };
@@ -126,7 +136,7 @@ function luminance(coordx, coordy, coordz, index) {
 }
 
 const sample = "";
-
+//This is where the translation changes are being accounted not during the creation of TORUS 
 const shadeMap = (l_value, coordx, coordy) => {
   if (l_value > 70) {
     ctx.fillText("@", coordx + translate_x, coordy + translate_y);
